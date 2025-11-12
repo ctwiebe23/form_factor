@@ -6,6 +6,7 @@
   "author": "C Wiebe <ctwiebe23@gmail.com>",
   "type": "module",
   "main": "form_factor.js",
+  "keywords": ["form", "HTMLFormElement"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
