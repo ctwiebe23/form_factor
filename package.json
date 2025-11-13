@@ -1,15 +1,13 @@
 {
   "name": "form_factor",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Automatic form handling",
   "license": "MIT",
   "author": "C Wiebe <ctwiebe23@gmail.com>",
   "type": "module",
   "main": "form_factor.js",
   "keywords": ["form", "HTMLFormElement"],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "devDependencies": {
     "prettier": "^3.6.2",
     "typescript": "^5.9.3"

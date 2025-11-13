@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>form_factor test</title>
+    <style>
+        body {
+            max-width: 700px;
+            margin-inline: auto;
+            padding: 32px;
+        }
+
+        input:not([type="checkbox"]) {
+            display: block;
+            margin-block: 8px;
+        }
+
+        output {
+            display: block;
+            padding: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Form</h3>
+    <form id="user_input_form">
+        <input type="text" id="user_name" placeholder="Username..." />
+        <input type="password" id="user_pass" placeholder="Password..." />
+
+        <fieldset>
+            <legend>Address</legend>
+
+            <input type="text" id="line_1" placeholder="Line 1..." />
+            <input type="text" id="line_2" placeholder="Line 2..." />
+            <input type="text" id="city" placeholder="City..." />
+            <input type="text" id="province" placeholder="Province..." />
+            <input type="text" id="postal_code" placeholder="Postal code..." />
+            <select id="country">
+                <option>...</option>
+                <option>Martinaise</option>
+                <option>Revachol</option>
+                <option>Seol</option>
+                <option>Oranje</option>
+            </select>
+        </fieldset>
+
+        <input type="checkbox" id="terms_of_service" />
+        <label for="terms_of_service">I agree to the TOS</label>
+        <input type="checkbox" id="newsletter" />
+        <label for="newsletter">Sign me up for the newsletter</label>
+    </form>
+
+    <h3>Output</h3>
+    <output id="out"></output>
+
+    <script type="module">
+        import { form_factor } from "./form_factor.js"
+
+        // Debounce of zero means the change_event fires *every* change ---
+        // normally it updates after no change has happened for debounce
+        // seconds.
+        const [user_input, change_event] = form_factor("user_input_form", { debounce: 0 })
+
+        const out = document.getElementById("out")
+        const update_out = () => {
+            console.log(user_input)
+            out.innerText
+                = "User "
+                + user_input.user_name
+                + " is from "
+                + user_input.address.country
+                + " and "
+                + (user_input.terms_of_service ? "agreed" : "disagreed")
+                + " to the TOS"
+        }
+
+        update_out()
+        document.addEventListener(change_event, update_out)
+    </script>
+</body>
+
+</html>

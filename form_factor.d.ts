@@ -14,10 +14,7 @@
 export declare const form_factor: (form: HTMLFormElement | string, options?: {
     debounce: number;
     events: string[];
-}) => {
-    values: ValueColl;
-    event_name: string;
-};
+}) => (string | ValueColl)[];
 type ValueColl = {
     [key: string]: any;
 };

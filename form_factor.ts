@@ -24,7 +24,7 @@ export const form_factor = (
     }
 
     if (!(form instanceof HTMLFormElement)) {
-        return { values: null, event_name: null }
+        return [null, null]
     }
 
     const events = options?.events ?? notable_events
@@ -50,7 +50,7 @@ export const form_factor = (
         })
     }
 
-    return { values, event_name }
+    return [values, event_name]
 }
 
 type InputColl = { [key: string]: HTMLInputElement | InputColl }
@@ -64,7 +64,7 @@ const gather_inputs = (element: HTMLElement) => {
             (fieldset as HTMLFieldSetElement).name ||
             fieldset.id ||
             (fieldset.querySelector(":scope > legend") as HTMLElement)
-                ?.innerText ||
+                ?.innerText.toLowerCase() ||
             fallback_id(fieldset)
 
         inputs[name] = gather_inputs(fieldset as HTMLElement)
@@ -116,7 +116,7 @@ const fallback_id = (element: Element) => {
     const id = "form_factor_" + inc++
     ;(element as HTMLInputElement).name = id
     console.warn(
-        "form_factor: Using fallback id \"" + id + "\" for element",
+        'form_factor: Using fallback id "' + id + '" for element',
         element,
     )
     return id

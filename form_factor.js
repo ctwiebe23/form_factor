@@ -18,7 +18,7 @@ export const form_factor = (form, options = null) => {
         form = document.getElementById(form);
     }
     if (!(form instanceof HTMLFormElement)) {
-        return { values: null, event_name: null };
+        return [null, null];
     }
     const events = options?.events ?? notable_events;
     const debounce = options?.debounce ?? default_debounce;
@@ -37,7 +37,7 @@ export const form_factor = (form, options = null) => {
             }, debounce);
         });
     }
-    return { values, event_name };
+    return [values, event_name];
 };
 const gather_inputs = (element) => {
     const inputs = {};
@@ -46,7 +46,7 @@ const gather_inputs = (element) => {
         const name = fieldset.name ||
             fieldset.id ||
             fieldset.querySelector(":scope > legend")
-                ?.innerText ||
+                ?.innerText.toLowerCase() ||
             fallback_id(fieldset);
         inputs[name] = gather_inputs(fieldset);
     }
@@ -83,6 +83,6 @@ let inc = 0;
 const fallback_id = (element) => {
     const id = "form_factor_" + inc++;
     element.name = id;
-    console.warn("form_factor: Using fallback id \"" + id + "\" for element", element);
+    console.warn('form_factor: Using fallback id "' + id + '" for element', element);
     return id;
 };
