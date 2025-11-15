@@ -20,6 +20,10 @@
             display: block;
             padding: 16px;
         }
+
+        form {
+            padding: 16px;
+        }
     </style>
 </head>
 
@@ -52,16 +56,20 @@
         <label for="newsletter">Sign me up for the newsletter</label>
     </form>
 
+    <button id="reset">
+        The Kim Button
+    </button>
+
     <h3>Output</h3>
     <output id="out"></output>
 
     <script type="module">
-        import { formul8 } from "./formul8.js"
+        import { formul8, notify, update_dir } from "./formul8.js"
 
         // Debounce of zero means the change_event fires *every* change ---
         // normally it updates after no change has happened for debounce
         // seconds.
-        const [user_input, change_event] = formul8("user_input_form", { debounce: 0 })
+        const [user_input, change_event] = formul8("user_input_form", { debounce: 0, auto_notify: false })
 
         const out = document.getElementById("out")
         const update_out = () => {
@@ -78,6 +86,17 @@
 
         update_out()
         document.addEventListener(change_event, update_out)
+
+        const reset = document.getElementById("reset")
+        const reset_form = () => {
+            user_input.user_name = "Kim"
+            user_input.user_pass = "Coupris Kineema Lover 123"
+            user_input.address.country = "Revachol"
+            user_input.terms_of_service = true
+            user_input.newsletter = false
+            notify(change_event, user_input)
+        }
+        reset.addEventListener("click", reset_form)
     </script>
 </body>
 

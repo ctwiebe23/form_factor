@@ -1,5 +1,12 @@
+export var update_dir;
+(function (update_dir) {
+    update_dir[update_dir["from_form"] = 1] = "from_form";
+    update_dir[update_dir["to_form"] = 2] = "to_form";
+})(update_dir || (update_dir = {}));
 const default_debounce = 250;
-const notable_events = ["change", "blur", "keydown", "submit"];
+const default_events = ["change", "blur", "keydown", "submit"];
+const default_direction = update_dir.from_form | update_dir.to_form;
+const default_auto_notify = true;
 /**
  * Builds a JSON object from the given form, where each form input is a key in
  * the object (fieldsets make sub-objects).  The values of the object are
@@ -8,7 +15,8 @@ const notable_events = ["change", "blur", "keydown", "submit"];
  * @param form The form in question, either the HTMLElement or the ID.
  * @param options Debounce is the amount of time in milliseconds after a change
  * when the value object should be updated; Events are the events for which the
- * value object should update.
+ * value object should update; Direction is which direction(s) the form should
+ * be updated.
  * @returns The value object that is updated each change, and the name of the
  * event that fires on those updates.  Null and null if the given form doesn't
  * exist.
@@ -20,22 +28,36 @@ export const formul8 = (form, options = null) => {
     if (!(form instanceof HTMLFormElement)) {
         return [null, null];
     }
-    const events = options?.events ?? notable_events;
+    const events = options?.events ?? default_events;
     const debounce = options?.debounce ?? default_debounce;
+    const direction = options?.direction ?? default_direction;
+    const auto_notify = options?.auto_notify ?? default_auto_notify;
     const name = form.name || form.id || fallback_id(form);
     const event_name = name + "-change";
     const inputs = gather_inputs(form);
-    const values = {};
-    gather_values(values, inputs);
-    let timer_id;
-    for (const event of events) {
-        form.addEventListener(event, () => {
-            clearTimeout(timer_id);
-            timer_id = setTimeout(() => {
-                gather_values(values, inputs);
-                notify(event_name, values);
-            }, debounce);
-        });
+    const internal_values = {};
+    gather_values(internal_values, inputs);
+    if (direction & update_dir.from_form) {
+        let timer_id;
+        for (const event of events) {
+            form.addEventListener(event, () => {
+                clearTimeout(timer_id);
+                timer_id = setTimeout(() => {
+                    gather_values(internal_values, inputs);
+                    notify(event_name, internal_values);
+                }, debounce);
+            });
+        }
+    }
+    let values;
+    if (direction & update_dir.to_form) {
+        const notify_fn = auto_notify
+            ? () => notify(event_name, internal_values)
+            : () => undefined;
+        values = value_coll_as_proxy(internal_values, inputs, notify_fn);
+    }
+    else {
+        values = internal_values;
     }
     return [values, event_name];
 };
@@ -57,7 +79,7 @@ const gather_inputs = (element) => {
     return inputs;
 };
 const gather_values = (values, inputs) => {
-    if (values === undefined) {
+    if (values === void 0) {
         values = {};
     }
     for (const [name, element] of Object.entries(inputs)) {
@@ -75,7 +97,38 @@ const gather_values = (values, inputs) => {
     }
     return values;
 };
-const notify = (event_name, values) => {
+const value_coll_as_proxy = (values, inputs, notify) => {
+    const handler = {
+        get(target, key) {
+            if (target[key].constructor === Object) {
+                return value_coll_as_proxy(target[key], inputs[key], notify);
+            }
+            else {
+                return target[key];
+            }
+        },
+        set(target, key, value) {
+            if (target[key] === void 0) {
+                console.error("No key " + key + " in object: ", target);
+                return true;
+            }
+            target[key] = value;
+            update_input(inputs[key], value);
+            notify();
+            return true;
+        },
+    };
+    return new Proxy(values, handler);
+};
+const update_input = (input, value) => {
+    if (input.type === "checkbox") {
+        input.checked = value;
+    }
+    else {
+        input.value = value;
+    }
+};
+export const notify = (event_name, values) => {
     document.dispatchEvent(new CustomEvent(event_name, { detail: values }));
 };
 let inc = 0;

@@ -1,3 +1,8 @@
+251115	0.3.0 -- Added bidirectional updates
+	Changing the state object now also changes the form itself, and can
+	optionally auto-fire the change event.
+	Added options to alter direction and auto-notify.
+	Updated test.html to demonstrate new feature.
 251113	0.2.0 -- Published to NPM
 	Published the project to NPM under the name formul8 (previously
 	known as form_factor).

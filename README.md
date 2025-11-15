@@ -26,6 +26,9 @@ custom event will be fired on the document.  The name of this event is the
 second thing returned by `formul8`, and the event object holds the state
 object in the `detail` field.
 
+When the values of state object change, the form is updated to change with them
+and the same custom event is fired.
+
 Any `<fieldset/>` elements in the form create sub-objects, where the key of
 the sub-object is the fieldset `name` is present, else the `id` if present,
 else the text of a child `<legend/>` if present, else a value auto generated
@@ -45,6 +48,27 @@ the form (250 milliseconds).
 
 If `options.events` is a list of strings, it becomes the list of events that
 the form listens for to detect changes.
+
+## DIRECTION
+
+If `options.direction` is a `update_dir` enum value, it will define which ways
+the form updates.  The directions are:
+
+```js
+update_dir.from_form = 1  // Changing the form elements changes the object.
+update_dir.to_form = 2    // Changing the object changes the form elements.
+```
+
+The default value is `update_dir.from_form | update_dir.to_form`, A.K.A.
+bidirectional.
+
+## AUTO_NOTIFY
+
+If `options.auto_notify` is true and `direction` includes `update_dir.to_form`,
+then changing the state object automatically fires the custom change event
+in addition to updating the form.  If you want to control this manually, set
+`options.auto_notify` to false and use `notify(change_event, form_data)` to
+manually fire the custom change event.
 
 # EXAMPLE
 
