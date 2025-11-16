@@ -1,12 +1,15 @@
 {
   "name": "formul8",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Automatic form handling",
   "license": "MIT",
   "author": "C Wiebe <ctwiebe23@gmail.com>",
   "type": "module",
   "main": "formul8.js",
-  "keywords": ["form", "HTMLFormElement"],
+  "keywords": [
+    "form",
+    "HTMLFormElement"
+  ],
   "scripts": {},
   "devDependencies": {
     "prettier": "^3.6.2",
