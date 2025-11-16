@@ -3,8 +3,8 @@ export var update_dir;
     update_dir[update_dir["from_form"] = 1] = "from_form";
     update_dir[update_dir["to_form"] = 2] = "to_form";
 })(update_dir || (update_dir = {}));
-const default_debounce = 250;
-const default_events = ["change", "blur", "keydown", "submit"];
+const default_debounce = 0;
+const default_events = ["change", "blur", "keydown", "submit", "reset"];
 const default_direction = update_dir.from_form | update_dir.to_form;
 const default_auto_notify = true;
 /**

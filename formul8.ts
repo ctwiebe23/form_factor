@@ -3,9 +3,9 @@ export enum update_dir {
     to_form = 2,
 }
 
-const default_debounce = 250
+const default_debounce = 0
 
-const default_events = ["change", "blur", "keydown", "submit"]
+const default_events = ["change", "blur", "keydown", "submit", "reset"]
 
 const default_direction = update_dir.from_form | update_dir.to_form
 

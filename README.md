@@ -42,7 +42,7 @@ parameter `options`, a JSON object.
 ## DEBOUNCE
 
 If `options.debounce` is a number, it overrides the default debounce period on
-the form (250 milliseconds).
+the form (0 milliseconds).
 
 ## EVENTS
 

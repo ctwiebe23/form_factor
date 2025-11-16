@@ -1,3 +1,6 @@
+251116	0.3.4 -- New defaults
+	Default debounce is now 0.
+	Default events now include the submit event.
 251115  0.3.3 -- Bugfixes
 	Replaced lone undefined with the cooler void 0.
 	Safely dereferenced JSON obj using null-safe-chain-operator-thing.
