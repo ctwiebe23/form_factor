@@ -1,6 +1,7 @@
-251115  0.3.2 -- Bugfixes
+251115  0.3.3 -- Bugfixes
 	Replaced lone undefined with the cooler void 0.
 	Safely dereferenced JSON obj using null-safe-chain-operator-thing.
+	Cast number input value to number type.
 251115	0.3.1 -- Better handling of fieldset legends as IDs
 	Now replaces spaces with underscores when using a fieldset's legend's
 	innerText as an ID.

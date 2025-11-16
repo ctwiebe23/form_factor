@@ -125,6 +125,8 @@ const gather_values = (values: ValueColl, inputs: InputColl) => {
         if (element instanceof HTMLElement) {
             if (element.type === "checkbox") {
                 values[name] = element.checked
+            } else if (element.type === "number") {
+                values[name] = Number(element.value)
             } else {
                 values[name] = element.value
             }
