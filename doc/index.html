@@ -380,8 +380,8 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgvRCskAAAJgAAAAckdQT1Ndqu7ZAA
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">do_stuff</span>(form_data)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">addEventListener</span>(change_event<span class="op">,</span> () <span class="kw">=&gt;</span> <span class="fu">do_stuff</span>(form_data))</span></code></pre></div>
 <h1 id="description">DESCRIPTION</h1>
-<p>Takes in a <code>&lt;form/&gt;</code> that contains
-<code>&lt;input/&gt;</code>, <code>&lt;select/&gt;</code>, and
+<p>Takes in a <code>&lt;form/&gt;</code> (or any HTML element) that
+contains <code>&lt;input/&gt;</code>, <code>&lt;select/&gt;</code>, and
 <code>&lt;textarea/&gt;</code> elements, and returns an object that
 represents the “state” of the form. Each of the input-like elements
 within the form will have an entry in the state object whose key is the
