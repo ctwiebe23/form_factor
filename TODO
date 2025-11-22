@@ -1,1 +1,2 @@
 attach diff listeners to diff elements / only react if the target matches.
+diff debounce for diff elements?
